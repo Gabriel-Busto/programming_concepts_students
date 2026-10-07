@@ -41,14 +41,45 @@ public class QRcode {
      * Return true if the other matrix is identical up to
      * 0, 1, 2 or 3 number of rotations
      * @param o the other matrix to compare to
-     * @return
+     * @return true or false
      */
     @Override
     public boolean equals(Object o) {
-        // TODO
-         return false;
+        if (this == o) return true;
+        if (o == null || getClass()!= o.getClass()) return false;
+
+        QRcode qRcode = (QRcode) o;
+        boolean [][] r = qRcode.data;
+
+        if (equalArray(data,r)) return true;
+
+        for (int i = 0; i< 3; i++) {
+            r = rotate(r);
+            if (equalArray(data,r)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    private static boolean equalArray(boolean [][] array1, boolean [][] array2) {
+        for (int i = 0; i < array1.length; i++) {
+            if (!Arrays.equals(array1[i],array2[i])) {
+                return false;
+            }
+        }
+        return  true;
     }
 
+    private boolean [][] rotate(boolean [][] input) {
+        boolean [][] res = new boolean[data.length][data.length];
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data.length; j++) {
+                res[i][j] = input[j][data.length-1-i];
+            }
+        }
+        return res;
 
+    }
 
 }

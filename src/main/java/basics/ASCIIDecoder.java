@@ -2,13 +2,12 @@ package basics;
 import java.util.ArrayList;
 
 public class ASCIIDecoder {
-
     /*
      * The 2D array "sentences" contain a set of decimal ASCII code we want you
      * to translate. Each sub-element of this array is a different sentence.
      * Ex : if we pass this array : [ ["72", "101", "108", "108", "111"], ["87", "111", "114", "108", "100"]]
      * to your decode method, you should return : [ "Hello", "World" ].
-     * 
+     *
      * Forbidden characters are passed as an array of int.
      * Each element of this array correspond to the decimal ASCII code
      * of a forbidden character OR null if there's no forbidden character
@@ -18,9 +17,34 @@ public class ASCIIDecoder {
      * Use the StringBuilder class and its method appendCodePoint(int) to translate the ASCII code.
      *
      * You should NEVER return null or an array containing null.
+     *
+     * for (int code : forbidden) équivalent à en python for element in list
      */
     public static String [] decode(int[] forbidden, String[][] sentences){
-         return null;
-    }
+        ArrayList<String> resultList = new ArrayList<>();
 
+        for (int i = 0; i < sentences.length; i++) {
+            StringBuilder sb = new StringBuilder();
+            for (int j = 0; j < sentences[i].length; j++) {
+                int asciiCode = Integer.parseInt(sentences[i][j]);
+
+                boolean isForbidden = false;
+                if (forbidden != null) {
+                    for (int code : forbidden) {
+                        if (code == asciiCode) {
+                            isForbidden = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isForbidden) {
+                    sb.appendCodePoint(asciiCode);
+                }
+            }
+            resultList.add(sb.toString());
+        }
+
+        return resultList.toArray(new String[0]);
+    }
 }
